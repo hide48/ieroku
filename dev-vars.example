@@ -1,0 +1,15 @@
+# .dev.vars の見本（キー名のみ）。このファイルを .dev.vars にコピーしてダミー値を入れる。
+# .dev.vars はコミットしない。本番の値は `wrangler secret` で GitHub Actions から設定する。
+# 秘密ではない設定値（APP_ENV, APP_BASE_URL, CF_ACCESS_TEAM_DOMAIN, CF_ACCESS_AUD,
+# FILE_URL_TTL_SECONDS, NOTIFY_DAYS_BEFORE, MAIL_FROM）は wrangler.jsonc の vars に書く。
+
+# 短命のファイル URL に付ける署名（HMAC）の鍵。ローカルはランダムなダミー値でよい
+FILE_URL_SIGNING_KEY=
+
+# メール送信サービスの API キー。ローカルは空にし、メールはコンソール出力のみ
+# （Cloudflare のメール機能で送れる場合は不要になる）
+EMAIL_API_KEY=
+
+# ローカル専用: Access がないため、ログイン済みとみなすダミーユーザー
+# 本番で設定されていたら起動時にエラーで停止する
+DEV_AUTH_EMAIL=test@example.com
