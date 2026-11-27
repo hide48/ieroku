@@ -15,3 +15,10 @@ allowBuilds:
   # 事前ビルド済みのバイナリが配布されるため、スクリプトは実行しない。install や dev で問題が出たら見直す
   lightningcss: false
   sharp: false
+
+# Vite+（ADR 0007）。vite は Vite+ 版のコアに差し替える（vp migrate が追加）
+catalog:
+  vite: npm:@voidzero-dev/vite-plus-core@8.3.8000
+  vite-plus: 1.7.0
+overrides:
+  vite@*: "catalog:"
