@@ -1,0 +1,4 @@
+# ADR 0006: Node.js と pnpm のバージョンを固定する
+[tools]
+node = "26"
+pnpm = "11"

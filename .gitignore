@@ -3,7 +3,6 @@ node_modules
 dist
 dist-ssr
 *.local
-.env
 .nitro
 .tanstack
 .wrangler
@@ -12,6 +11,15 @@ dist-ssr
 __unconfig*
 todos.json
 
-.dev.vars*
-!.dev.vars.example
-!.env.example
+# 秘密情報（ADR 0006）。見本は dev-vars.example（読み取り拒否を避けるためドット無しの名前）
+.env
+.env.*
+.dev.vars
+.dev.vars.*
+
+# Terraform の state と作業ディレクトリ（ADR 0005: state はリポジトリにコミットしない）
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log

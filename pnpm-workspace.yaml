@@ -1,7 +1,17 @@
-allowBuilds:
-  esbuild: true
-  lightningcss: true
-  sharp: true
-  workerd: true
+# ADR 0004: サプライチェーン対策
+# pnpm 11 では package.json の "pnpm" 欄は読まれないため、設定はこのファイルに集約する
+
 packages:
   - .
+
+# 公開から 7 日（10080 分）経っていないバージョンはインストールしない
+minimumReleaseAge: 10080
+
+# 依存のインストールスクリプトの許可リスト（`pnpm approve-builds` で更新し、差分をレビューする）
+# true = 実行を許可 / false = レビュー済みで実行しない。未記載のものがあると install は失敗する（strictDepBuilds の既定値は true）
+allowBuilds:
+  esbuild: true
+  workerd: true
+  # 事前ビルド済みのバイナリが配布されるため、スクリプトは実行しない。install や dev で問題が出たら見直す
+  lightningcss: false
+  sharp: false
