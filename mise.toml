@@ -1,4 +1,6 @@
-# ADR 0006: Node.js と pnpm のバージョンを固定する
+# ADR 0006: 開発環境と CI のツールの版を固定する（CI も jdx/mise-action でこのファイルを使う）
+# pnpm は package.json の packageManager と揃える
 [tools]
-node = "26"
-pnpm = "11"
+node = "26.13.1"
+pnpm = "11.29.0"
+gitleaks = "8.30.1"
