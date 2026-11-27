@@ -61,6 +61,7 @@
 - ブランチは `feat/NNN-機能名` など短命のもの。main への直接 push はしない
 - コミットは Conventional Commits（種別は英語、本文は日本語）。例: `feat(warranty): 保証期限の一覧を追加 (#001)`
 - PR には仕様へのリンク・検証の証拠・リスク・戻し方を書く
+- マージはマージコミット（squash しない）。PR 内のコミットが main に残るため、途中経過のコミットは push 前に `git commit --fixup` と `git rebase --autosquash` でまとめる
 
 ## 設計判断（詳細は docs/adr/）
 
@@ -76,3 +77,4 @@
 - 0010 Git・GitHub の運用（main 保護、Claude の権限は最小）
 - 0011 ログインはパスキー + ワンタイムコード、独自ドメインで公開
 - 0012 AI 解析は Workers AI を基本、必ず人が確認してから保存（第 2 弾）
+- 0013 PR のマージはマージコミット（0010 の squash のみを置き換え）
