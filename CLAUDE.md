@@ -12,8 +12,9 @@
 ## コマンド
 
 - `pnpm dev` … ローカル起動（workerd。D1・R2・Cron もローカル再現）
+- `pnpm check` … format・lint（型を使うチェック込み）・型チェック（Vite+）。`pnpm exec vp check --fix` で自動修正
 - `pnpm build` / `pnpm typecheck`
-- 未整備（Vite+・Playwright の導入後に追加）: `pnpm check`（lint・format・型）、`pnpm test`、`pnpm e2e`（Chromium と WebKit）、`pnpm db:seed`（ダミーデータのみ）
+- 未整備: `pnpm test`、`pnpm e2e`（Chromium と WebKit）、`pnpm db:seed`（ダミーデータのみ）
 
 ## 必ず守るルール
 
