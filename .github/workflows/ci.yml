@@ -30,6 +30,7 @@ jobs:
       # 7 日待機とビルドスクリプトの許可リストは pnpm-workspace.yaml の設定がそのまま効く
       - run: pnpm install --frozen-lockfile
       - run: pnpm check
+      - run: pnpm test
       - run: pnpm build
 
   gitleaks:

@@ -7,7 +7,8 @@
   "name": "ieroku",
   "compatibility_date": "2026-11-17",
   "compatibility_flags": ["nodejs_compat"],
-  "main": "@tanstack/react-start/server-entry",
+  // src/server.ts で環境変数を検証してから TanStack Start に渡す（.claude/rules/env-auth.md）
+  "main": "src/server.ts",
   "observability": {
     "enabled": true,
   },
@@ -29,7 +30,22 @@
    * Note: Use secrets to store sensitive data.
    * https://developers.cloudflare.com/workers/configuration/secrets/
    */
-  // "vars": {  "MY_VARIABLE": "production_value" }
+  // 秘密でない値だけを書く。ローカルでは .dev.vars の値で上書きする（見本は dev-vars.example）
+  // APP_ENV は安全側の production を既定にする（ローカルは .dev.vars で development にする）
+  // CF_ACCESS_* は独自ドメインと Access アプリの作成後に入れる。空のままでは本番は起動しない
+  "vars": {
+    "APP_ENV": "production",
+    "CF_ACCESS_TEAM_DOMAIN": "",
+    "CF_ACCESS_AUD": "",
+  },
+  // D1（ADR 0002）。database_id は本番の D1 を作成してから入れる（ローカルでは不要）
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "ieroku",
+      "migrations_dir": "migrations",
+    },
+  ],
   /**
    * Static Assets
    * https://developers.cloudflare.com/workers/static-assets/binding/

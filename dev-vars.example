@@ -3,6 +3,9 @@
 # 秘密ではない設定値（APP_ENV, APP_BASE_URL, CF_ACCESS_TEAM_DOMAIN, CF_ACCESS_AUD,
 # FILE_URL_TTL_SECONDS, NOTIFY_DAYS_BEFORE, MAIL_FROM）は wrangler.jsonc の vars に書く。
 
+# ローカルは development にする（wrangler.jsonc の既定は安全側の production）
+APP_ENV=development
+
 # 短命のファイル URL に付ける署名（HMAC）の鍵。ローカルはランダムなダミー値でよい
 FILE_URL_SIGNING_KEY=
 
@@ -10,6 +13,8 @@ FILE_URL_SIGNING_KEY=
 # （Cloudflare のメール機能で送れる場合は不要になる）
 EMAIL_API_KEY=
 
-# ローカル専用: Access がないため、ログイン済みとみなすダミーユーザー
-# 本番で設定されていたら起動時にエラーで停止する
+# ローカル専用: Access がないため、ログイン済みとみなすダミーユーザー（`pnpm db:seed` で登録される）
+# APP_ENV=development かつ localhost へのリクエストのときだけ使う。本番で設定されていたら起動時にエラーで停止する
+# localhost かどうかは Host ヘッダーで判定するため、`pnpm dev --host` などで LAN に公開するときは
+# この行を消す（同じネットワークの他の端末が Host: localhost を送るとログインできてしまう）
 DEV_AUTH_EMAIL=test@example.com
