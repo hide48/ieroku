@@ -1,0 +1,9 @@
+// 単体テスト専用の設定（src/test/d1.ts）。D1 のバインディングだけを持つ。
+// wrangler は設定ファイルと同じフォルダの .dev.vars を読むため、リポジトリ直下の設定は使わない
+// （テストが開発者のローカルの秘密の値を読まないようにする）。
+{
+  "name": "ieroku-test",
+  "compatibility_date": "2026-11-17",
+  "compatibility_flags": ["nodejs_compat"],
+  "d1_databases": [{ "binding": "DB", "database_name": "ieroku-test" }],
+}

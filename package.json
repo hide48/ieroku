@@ -10,7 +10,13 @@
     "cf-typegen": "wrangler types",
     "typecheck": "tsc --noEmit",
     "prepare": "vp config",
-    "check": "vp check"
+    "check": "vp check",
+    "test": "vp test",
+    "e2e": "pnpm db:seed && playwright test",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate:local": "wrangler d1 migrations apply DB --local",
+    "db:seed": "node scripts/seed.ts",
+    "household:register": "node scripts/register-household.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",

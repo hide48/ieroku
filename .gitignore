@@ -23,3 +23,7 @@ todos.json
 *.tfstate.*
 *.tfplan
 crash.log
+
+# Playwright の出力
+test-results/
+playwright-report/

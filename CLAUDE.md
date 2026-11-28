@@ -14,11 +14,16 @@
 - `pnpm dev` … ローカル起動（workerd。D1・R2・Cron もローカル再現）
 - `pnpm check` … format・lint（型を使うチェック込み）・型チェック（Vite+）。`pnpm exec vp check --fix` で自動修正
 - `pnpm build` / `pnpm typecheck`
-- 未整備: `pnpm test`、`pnpm e2e`（Chromium と WebKit）、`pnpm db:seed`（ダミーデータのみ）
+- `pnpm test` … 単体テスト（D1 は wrangler のローカル実装をメモリ上で使う）
+- `pnpm e2e` … E2E（スマホ幅の Chromium・WebKit と PC 幅の Chromium）。ダミーデータを入れてから開発サーバーを起動する
+- `pnpm db:seed` … ローカル D1 にマイグレーションとダミーデータを入れる（本物の個人情報は使わない）
+- `pnpm db:generate` … `src/server/data/schema.ts` からマイグレーションの SQL を生成する（適用は wrangler）
+- `pnpm household:register --local|--remote --email …` … 世帯と利用者の登録。`--remote` は本番なので人間が実行する
 
 ## 必ず守るルール
 
 - **DB へのクエリは `src/server/data/` の関数経由のみ**。すべての関数は世帯 ID を必須にする
+  - 例外は世帯を特定する前の 2 つだけ: 認証でメールから世帯を探す `resolveScopeByEmail`（import は `src/server/auth/` のみ。lint で制限）と、通知の Cron で世帯 ID の一覧だけを返す関数。どちらも世帯のデータ本体は返さない
 - 権限まわりの変更には「他の世帯のデータにアクセスできない」ことのテストを付ける
 - ログ・エラーメッセージに個人情報（氏名・住所・メール・金額・ファイル名）を出さない
 - パッケージの追加・`shadcn add`・デプロイ・`terraform apply` は行わない。理由とコマンドを提示して人間に依頼する
