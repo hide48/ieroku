@@ -26,7 +26,35 @@ const config = defineConfig({
   lint: {
     ignorePatterns: ["src/routeTree.gen.ts", "worker-configuration.d.ts"],
     jsPlugins: [{ name: "vite-plus", specifier: "vite-plus/oxlint-plugin" }],
-    rules: { "vite-plus/prefer-vite-plus-imports": "error" },
+    rules: {
+      "vite-plus/prefer-vite-plus-imports": "error",
+      // DB へのアクセスは src/server/data/ の関数経由のみ（ADR 0002、.claude/rules/data-access.md）
+      "no-restricted-imports": [
+        "error",
+        {
+          paths: [
+            {
+              name: "drizzle-orm",
+              message:
+                "DB へのアクセスは src/server/data/ の関数を使ってください（世帯 ID の条件を必ず付けるため）",
+            },
+          ],
+          patterns: [
+            {
+              group: ["drizzle-orm/*"],
+              message:
+                "DB へのアクセスは src/server/data/ の関数を使ってください（世帯 ID の条件を必ず付けるため）",
+            },
+          ],
+        },
+      ],
+    },
+    overrides: [
+      {
+        files: ["src/server/data/**"],
+        rules: { "no-restricted-imports": "off" },
+      },
+    ],
     options: { typeAware: true, typeCheck: true },
   },
   resolve: { tsconfigPaths: true },
