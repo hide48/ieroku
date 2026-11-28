@@ -1,6 +1,6 @@
 # 画面とサーバー関数（src/routes/）のルール
 
-- UI は shadcn/ui（Base UI）+ Tailwind。部品の追加（`shadcn add`）はひでに依頼する。追加された部品は modern-web-guidance に合わせて書き換えない
+- UI は shadcn/ui（Base UI）+ Tailwind。部品の追加（`shadcn add`）は人間に依頼する。追加された部品は modern-web-guidance に合わせて書き換えない
 - 日付はブラウザ標準の `<input type="date">` を使う（スマホのネイティブのピッカーを出すため）
 - フォームは TanStack Form + Zod。Zod のスキーマはサーバー側の検証と共有する
 - アイコンは lucide、フォントは system-ui（Web フォントは読み込まない）

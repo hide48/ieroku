@@ -24,7 +24,7 @@ case "$rel" in
     ;;
   docs/adr/*.md)
     if [ -e "$abs" ] && git -C "$project_dir" ls-files --error-unmatch "$rel" >/dev/null 2>&1; then
-      echo "ブロック: 承認済みの ADR は書き換えません。方針を変える場合は新しい ADR を作成し、置き換え関係を記載してください（旧 ADR への追記はひでが行います）。" >&2
+      echo "ブロック: 承認済みの ADR は書き換えません。方針を変える場合は新しい ADR を作成し、置き換え関係を記載してください（後の変更は docs/adr/README.md の「その後」の欄に書きます）。" >&2
       exit 2
     fi
     ;;

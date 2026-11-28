@@ -1,6 +1,6 @@
 ---
 name: spec
-description: 新しい機能の要件をインタビューで詰め、docs/specs/NNN-*/ に SPEC.md と design.html を作る。開発フロー①〜③。ひでが「/spec」と言ったとき、または新機能の設計を始めるときに使う。
+description: 新しい機能の要件をインタビューで詰め、docs/specs/NNN-*/ に SPEC.md と design.html を作る。開発フロー①〜③。ユーザーが「/spec」と言ったとき、または新機能の設計を始めるときに使う。
 ---
 
 # /spec — 要件インタビューと設計書の作成
@@ -48,5 +48,5 @@ description: 新しい機能の要件をインタビューで詰め、docs/specs
 
 ## 4. 完了
 
-- ひでに SPEC.md と design.html の場所、未決事項、ADR 候補を伝え、レビューを依頼する
+- ユーザーに SPEC.md と design.html の場所、未決事項、ADR 候補を伝え、レビューを依頼する
 - **承認されるまで実装を始めない**
