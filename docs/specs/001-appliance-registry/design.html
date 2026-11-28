@@ -1,0 +1,1021 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>001 家電登録 — design</title>
+    <style>
+      :root {
+        --bg: #f6f5f2;
+        --fg: #1d1d1b;
+        --muted: #6b6a66;
+        --line: #dddbd5;
+        --card: #fff;
+        --accent: #2f5d50;
+        --warn-bg: #fdf0d5;
+        --warn-fg: #8a5300;
+        --gray-bg: #ecebe8;
+        --gray-fg: #77756f;
+        --err: #b3261e;
+        --code-bg: #1f2328;
+        --code-fg: #e6e6e6;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #161615;
+          --fg: #ecebe8;
+          --muted: #a3a19b;
+          --line: #3a3936;
+          --card: #212120;
+          --accent: #7fbfa9;
+          --warn-bg: #4a3612;
+          --warn-fg: #f3c773;
+          --gray-bg: #2d2c2a;
+          --gray-fg: #9b9993;
+          --err: #f2b8b5;
+        }
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--fg);
+        line-height: 1.6;
+      }
+      main {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 32px 20px 80px;
+      }
+      h1 {
+        font-size: 1.6rem;
+        margin: 0 0 4px;
+      }
+      h2 {
+        font-size: 1.2rem;
+        margin: 48px 0 8px;
+        padding-bottom: 6px;
+        border-bottom: 1px solid var(--line);
+      }
+      p.lead {
+        color: var(--muted);
+        margin: 0 0 8px;
+      }
+      .note {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+      nav.toc a {
+        color: var(--accent);
+        margin-right: 14px;
+        font-size: 0.95rem;
+      }
+
+      /* phones */
+      .phones {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 28px;
+        margin-top: 16px;
+      }
+      .phone-wrap {
+        width: 300px;
+      }
+      .phone-wrap > h3 {
+        font-size: 0.95rem;
+        margin: 0 0 6px;
+      }
+      .phone-wrap > .cap {
+        font-size: 0.82rem;
+        color: var(--muted);
+        margin: 6px 2px 0;
+      }
+      .phone {
+        width: 300px;
+        height: 600px;
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        background: var(--card);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 1px 2px rgb(0 0 0 / 0.06);
+        font-size: 13px;
+      }
+      .bar {
+        padding: 14px 16px 10px;
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .bar b {
+        font-size: 15px;
+        flex: 1;
+      }
+      .bar .act {
+        color: var(--accent);
+        font-size: 12px;
+      }
+      .body {
+        flex: 1;
+        overflow: hidden;
+        padding: 10px 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .tabs {
+        display: flex;
+        border-top: 1px solid var(--line);
+      }
+      .tabs span {
+        flex: 1;
+        text-align: center;
+        padding: 9px 0 12px;
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .tabs span.on {
+        color: var(--accent);
+        font-weight: 600;
+      }
+      .search {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 7px 10px;
+        color: var(--muted);
+      }
+      .seg {
+        display: flex;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        overflow: hidden;
+        font-size: 11.5px;
+      }
+      .seg span {
+        flex: 1;
+        text-align: center;
+        padding: 5px 0;
+      }
+      .seg span.on {
+        background: var(--accent);
+        color: var(--card);
+      }
+      .row {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 8px 10px;
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        align-items: center;
+      }
+      .row .t {
+        font-weight: 600;
+      }
+      .row .s {
+        color: var(--muted);
+        font-size: 11.5px;
+      }
+      .badge {
+        font-size: 11px;
+        padding: 2px 8px;
+        border-radius: 999px;
+        white-space: nowrap;
+        border: 1px solid var(--line);
+      }
+      .badge.warn {
+        background: var(--warn-bg);
+        color: var(--warn-fg);
+        border-color: transparent;
+        font-weight: 600;
+      }
+      .badge.gray {
+        background: var(--gray-bg);
+        color: var(--gray-fg);
+        border-color: transparent;
+      }
+      .link {
+        color: var(--accent);
+        font-size: 12px;
+        text-align: center;
+        padding-top: 2px;
+      }
+      .grp {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 4px;
+        font-weight: 600;
+      }
+      .f label {
+        display: block;
+        font-size: 11.5px;
+        color: var(--muted);
+        margin-bottom: 2px;
+      }
+      .f label i {
+        color: var(--err);
+        font-style: normal;
+      }
+      .in {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 6px 9px;
+        min-height: 30px;
+      }
+      .in.err {
+        border-color: var(--err);
+      }
+      .errmsg {
+        color: var(--err);
+        font-size: 11px;
+      }
+      .two {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .box {
+        border: 1px dashed var(--line);
+        border-radius: 12px;
+        padding: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .box h4 {
+        margin: 0;
+        font-size: 12px;
+        display: flex;
+        justify-content: space-between;
+      }
+      .tag {
+        font-size: 10px;
+        background: var(--gray-bg);
+        color: var(--gray-fg);
+        border-radius: 4px;
+        padding: 0 5px;
+        margin-left: 4px;
+      }
+      .btn {
+        background: var(--accent);
+        color: var(--card);
+        border-radius: 10px;
+        text-align: center;
+        padding: 8px;
+        font-weight: 600;
+      }
+      .btn.ghost {
+        background: transparent;
+        color: var(--accent);
+        border: 1px solid var(--accent);
+      }
+      .btn.danger {
+        background: transparent;
+        color: var(--err);
+        border: 1px solid var(--err);
+      }
+      .kv {
+        display: grid;
+        grid-template-columns: 70px 1fr;
+        gap: 2px 8px;
+        font-size: 12px;
+      }
+      .kv dt {
+        color: var(--muted);
+      }
+      .kv dd {
+        margin: 0;
+      }
+      .thumbs {
+        display: flex;
+        gap: 6px;
+      }
+      .thumbs span {
+        width: 52px;
+        height: 52px;
+        border-radius: 8px;
+        background: var(--gray-bg);
+        display: grid;
+        place-items: center;
+        font-size: 10px;
+        color: var(--gray-fg);
+      }
+      .hist {
+        font-size: 11.5px;
+        color: var(--muted);
+      }
+      .sw {
+        width: 34px;
+        height: 20px;
+        border-radius: 999px;
+        background: var(--accent);
+        position: relative;
+        flex: none;
+      }
+      .sw::after {
+        content: "";
+        position: absolute;
+        right: 2px;
+        top: 2px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: var(--card);
+      }
+      .dialog {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 12px;
+        background: var(--bg);
+      }
+      .mail {
+        font-size: 12px;
+      }
+      .mail .hdr {
+        color: var(--muted);
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 6px;
+        margin-bottom: 6px;
+      }
+
+      /* flow */
+      .flow {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 16px;
+        overflow-x: auto;
+      }
+      .flow svg {
+        display: block;
+        min-width: 900px;
+        width: 100%;
+        height: auto;
+      }
+      .flow text {
+        fill: var(--fg);
+        font-family: system-ui, sans-serif;
+        font-size: 13px;
+      }
+      .flow .sub {
+        fill: var(--muted);
+        font-size: 11px;
+      }
+      .flow rect.n {
+        fill: var(--bg);
+        stroke: var(--line);
+      }
+      .flow rect.g {
+        fill: none;
+        stroke: var(--accent);
+        stroke-dasharray: 4 4;
+      }
+      .flow path {
+        stroke: var(--muted);
+        fill: none;
+        marker-end: url(#arr);
+      }
+      .flow path.sec {
+        stroke: var(--accent);
+      }
+      .flow #arr path {
+        fill: var(--muted);
+        stroke: none;
+      }
+
+      pre {
+        background: var(--code-bg);
+        color: var(--code-fg);
+        padding: 14px 16px;
+        border-radius: 12px;
+        overflow-x: auto;
+        font-size: 12.5px;
+        line-height: 1.55;
+      }
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      }
+      .q {
+        border-left: 3px solid var(--accent);
+        padding: 2px 12px;
+        margin: 10px 0;
+      }
+      table {
+        border-collapse: collapse;
+        font-size: 0.9rem;
+      }
+      th,
+      td {
+        border: 1px solid var(--line);
+        padding: 4px 10px;
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>001 家電登録 — 画面・データフロー・コード断片</h1>
+      <p class="lead">SPEC.md と合わせてレビューしてください。データはすべてダミーです。</p>
+      <nav class="toc">
+        <a href="#screens">画面モック</a><a href="#flow">データフロー</a
+        ><a href="#code">コード断片</a><a href="#review">特に見てほしい点</a>
+      </nav>
+
+      <h2 id="screens">画面モック（スマホ幅）</h2>
+      <div class="phones">
+        <!-- 一覧 -->
+        <div class="phone-wrap">
+          <h3>① 一覧（期限が近い順）</h3>
+          <div class="phone">
+            <div class="bar"><b>家電</b><span class="act">処分済み</span></div>
+            <div class="body">
+              <div class="search">品名・メーカー・型番で検索</div>
+              <div class="seg">
+                <span class="on">期限が近い順</span><span>部屋ごと</span><span>種類ごと</span>
+              </div>
+              <div class="row">
+                <div>
+                  <div class="t">エアコン</div>
+                  <div class="s">家電・寝室</div>
+                </div>
+                <span class="badge warn">あと 20 日</span>
+              </div>
+              <div class="row">
+                <div>
+                  <div class="t">冷蔵庫</div>
+                  <div class="s">家電・キッチン</div>
+                </div>
+                <span class="badge">〜2027/03/31</span>
+              </div>
+              <div class="row">
+                <div>
+                  <div class="t">給湯器</div>
+                  <div class="s">住宅設備・未設定</div>
+                </div>
+                <span class="badge">〜2036/03/14</span>
+              </div>
+              <div class="row">
+                <div>
+                  <div class="t">電子レンジ</div>
+                  <div class="s">家電・キッチン</div>
+                </div>
+                <span class="badge gray">期限切れ</span>
+              </div>
+              <div class="row">
+                <div>
+                  <div class="t">ダイニングテーブル</div>
+                  <div class="s">家具・リビング</div>
+                </div>
+                <span class="badge">保証なし</span>
+              </div>
+              <div class="link">処分済みを見る（2 件）</div>
+            </div>
+            <div class="tabs"><span class="on">一覧</span><span>登録</span><span>設定</span></div>
+          </div>
+          <p class="cap">
+            有効な保証の近い順 → 期限切れのみ → 保証なし。30 日以内は注意色、期限切れは灰色。
+          </p>
+        </div>
+
+        <!-- 部屋ごと -->
+        <div class="phone-wrap">
+          <h3>② 一覧（部屋ごと・検索中）</h3>
+          <div class="phone">
+            <div class="bar"><b>家電</b><span class="act">処分済み</span></div>
+            <div class="body">
+              <div class="search" style="color: var(--fg)">NR-</div>
+              <div class="seg">
+                <span>期限が近い順</span><span class="on">部屋ごと</span><span>種類ごと</span>
+              </div>
+              <div class="grp">キッチン（1）</div>
+              <div class="row">
+                <div>
+                  <div class="t">冷蔵庫</div>
+                  <div class="s">Panasonic・NR-F000</div>
+                </div>
+                <span class="badge">〜2027/03/31</span>
+              </div>
+              <div class="grp">未設定（0）</div>
+              <div class="s note" style="font-size: 11.5px">該当なし</div>
+            </div>
+            <div class="tabs"><span class="on">一覧</span><span>登録</span><span>設定</span></div>
+          </div>
+          <p class="cap">部屋の並びは設定画面の順。部屋なしは「未設定」にまとめる。</p>
+        </div>
+
+        <!-- 登録 -->
+        <div class="phone-wrap">
+          <h3>③ 登録</h3>
+          <div class="phone">
+            <div class="bar"><b>家電を登録</b><span class="act">保存</span></div>
+            <div class="body">
+              <div class="f">
+                <label>品名 <i>*</i></label>
+                <div class="in err"></div>
+                <div class="errmsg">品名を入力してください</div>
+              </div>
+              <div class="two">
+                <div class="f">
+                  <label>種類 <i>*</i></label>
+                  <div class="in">家電 ▾</div>
+                </div>
+                <div class="f">
+                  <label>部屋</label>
+                  <div class="in">未設定 ▾</div>
+                </div>
+              </div>
+              <div class="two">
+                <div class="f">
+                  <label>メーカー</label>
+                  <div class="in"></div>
+                </div>
+                <div class="f">
+                  <label>型番</label>
+                  <div class="in"></div>
+                </div>
+              </div>
+              <div class="seg"><span class="on">購入</span><span>もらいもの</span></div>
+              <div class="two">
+                <div class="f">
+                  <label>購入日 <i>*</i></label>
+                  <div class="in">2026/04/01 📅</div>
+                </div>
+                <div class="f">
+                  <label>購入者</label>
+                  <div class="in">ひろ ▾</div>
+                </div>
+              </div>
+              <div class="box">
+                <h4>
+                  メーカー保証 <span style="color: var(--muted); font-weight: 400">削除</span>
+                </h4>
+                <div class="two">
+                  <div class="f">
+                    <label>開始日</label>
+                    <div class="in">2026/04/01</div>
+                  </div>
+                  <div class="f">
+                    <label>期間</label>
+                    <div class="in">12 か月 ▾</div>
+                  </div>
+                </div>
+                <div class="f">
+                  <label>期限日（自動）</label>
+                  <div class="in">2027/03/31</div>
+                </div>
+              </div>
+              <div class="link">＋保証を追加　｜　保証なし</div>
+              <div class="note" style="font-size: 11px">購入店・金額・メモは下へスクロール</div>
+            </div>
+            <div class="tabs"><span>一覧</span><span class="on">登録</span><span>設定</span></div>
+          </div>
+          <p class="cap">日付は &lt;input type="date"&gt;。開始日の初期値は購入日。</p>
+        </div>
+
+        <!-- もらいもの -->
+        <div class="phone-wrap">
+          <h3>③b 登録（もらいもの）</h3>
+          <div class="phone">
+            <div class="bar"><b>家電を登録</b><span class="act">保存</span></div>
+            <div class="body">
+              <div class="f">
+                <label>品名 <i>*</i></label>
+                <div class="in">コーヒーメーカー</div>
+              </div>
+              <div class="two">
+                <div class="f">
+                  <label>種類 <i>*</i></label>
+                  <div class="in">家電 ▾</div>
+                </div>
+                <div class="f">
+                  <label>部屋</label>
+                  <div class="in">キッチン ▾</div>
+                </div>
+              </div>
+              <div class="seg"><span>購入</span><span class="on">もらいもの</span></div>
+              <div class="two">
+                <div class="f">
+                  <label>受け取った日 <i>*</i></label>
+                  <div class="in">2026/11/03 📅</div>
+                </div>
+                <div class="f">
+                  <label>贈り主（呼び名）</label>
+                  <div class="in">実家</div>
+                </div>
+              </div>
+              <div class="note" style="font-size: 11px">
+                購入者・購入店・金額は表示しない（保存時にも消す）
+              </div>
+              <div class="box">
+                <h4>メーカー保証</h4>
+                <div class="two">
+                  <div class="f">
+                    <label>開始日</label>
+                    <div class="in">2026/11/03</div>
+                  </div>
+                  <div class="f">
+                    <label>期間</label>
+                    <div class="in">12 か月 ▾</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tabs"><span>一覧</span><span class="on">登録</span><span>設定</span></div>
+          </div>
+          <p class="cap">贈り主はフルネームでなく呼び名を想定。ログ・通知メールには出さない。</p>
+        </div>
+
+        <!-- 保証 手入力 -->
+        <div class="phone-wrap">
+          <h3>④ 保証 2 件・期限を手入力</h3>
+          <div class="phone">
+            <div class="bar"><b>家電を編集</b><span class="act">保存</span></div>
+            <div class="body">
+              <div class="box">
+                <h4>メーカー保証</h4>
+                <div class="two">
+                  <div class="f">
+                    <label>開始日</label>
+                    <div class="in">2024/02/29</div>
+                  </div>
+                  <div class="f">
+                    <label>期間</label>
+                    <div class="in">12 か月 ▾</div>
+                  </div>
+                </div>
+                <div class="f">
+                  <label>期限日<span class="tag">手入力</span></label>
+                  <div class="in">2025/03/31</div>
+                </div>
+                <div class="link" style="text-align: left">自動計算に戻す（2025/02/27）</div>
+              </div>
+              <div class="box">
+                <h4>延長保証</h4>
+                <div class="f">
+                  <label>提供者</label>
+                  <div class="in">購入店の延長保証</div>
+                </div>
+                <div class="two">
+                  <div class="f">
+                    <label>開始日</label>
+                    <div class="in">2024/02/29</div>
+                  </div>
+                  <div class="f">
+                    <label>期間</label>
+                    <div class="in">60 か月 ▾</div>
+                  </div>
+                </div>
+                <div class="f">
+                  <label>期限日（自動）</label>
+                  <div class="in">2029/02/27</div>
+                </div>
+              </div>
+              <div class="link">＋保証を追加</div>
+            </div>
+            <div class="tabs"><span>一覧</span><span class="on">登録</span><span>設定</span></div>
+          </div>
+          <p class="cap">手で直した期限は自動で上書きしない。2/29 開始は翌年 2/28 に丸めて前日。</p>
+        </div>
+
+        <!-- 詳細 -->
+        <div class="phone-wrap">
+          <h3>⑤ 詳細</h3>
+          <div class="phone">
+            <div class="bar"><b>冷蔵庫</b><span class="act">編集</span></div>
+            <div class="body">
+              <dl class="kv">
+                <dt>種類</dt>
+                <dd>家電</dd>
+                <dt>部屋</dt>
+                <dd>キッチン</dd>
+                <dt>メーカー</dt>
+                <dd>Panasonic</dd>
+                <dt>型番</dt>
+                <dd>NR-F000</dd>
+                <dt>購入日</dt>
+                <dd>2026/04/01</dd>
+                <dt>購入者</dt>
+                <dd>ひろ</dd>
+                <dt>購入店</dt>
+                <dd>○○電機</dd>
+                <dt>金額</dt>
+                <dd>¥198,000</dd>
+              </dl>
+              <div class="grp">保証</div>
+              <div class="row">
+                <div>
+                  <div class="t">メーカー保証</div>
+                  <div class="s">2026/04/01〜2027/03/31</div>
+                </div>
+                <span class="badge">あと 123 日</span>
+              </div>
+              <div class="row">
+                <div>
+                  <div class="t">延長保証</div>
+                  <div class="s">○○電機・〜2031/03/31</div>
+                </div>
+                <span class="badge">〜2031/03/31</span>
+              </div>
+              <div class="grp">添付（2 / 10）</div>
+              <div class="thumbs"><span>写真</span><span>PDF</span><span>＋</span></div>
+              <div class="grp">履歴</div>
+              <div class="hist">ひろさんが 11/28 に編集<br />ゆきさんが 11/27 に登録</div>
+              <div class="btn danger">処分済みにする</div>
+            </div>
+            <div class="tabs"><span class="on">一覧</span><span>登録</span><span>設定</span></div>
+          </div>
+          <p class="cap">
+            添付をタップすると 60 秒の署名付き URL を発行して表示。履歴に変更前後の値は出さない。
+          </p>
+        </div>
+
+        <!-- 処分済み -->
+        <div class="phone-wrap">
+          <h3>⑥ 処分済みの詳細・完全削除</h3>
+          <div class="phone">
+            <div class="bar">
+              <b>電子レンジ</b><span class="badge gray">処分済み 2026/10/01</span>
+            </div>
+            <div class="body">
+              <dl class="kv">
+                <dt>種類</dt>
+                <dd>家電</dd>
+                <dt>購入日</dt>
+                <dd>2019/05/10</dd>
+              </dl>
+              <div class="hist">通知は止まっています。</div>
+              <div class="btn ghost">元に戻す</div>
+              <div class="btn danger">完全に削除</div>
+              <div class="dialog">
+                <b>「電子レンジ」を完全に削除しますか？</b>
+                <p class="hist" style="margin: 6px 0">
+                  保証・添付ファイル（1 件）・履歴も削除され、元に戻せません。
+                </p>
+                <div class="two">
+                  <div class="btn ghost">やめる</div>
+                  <div class="btn" style="background: var(--err)">削除する</div>
+                </div>
+              </div>
+            </div>
+            <div class="tabs"><span class="on">一覧</span><span>登録</span><span>設定</span></div>
+          </div>
+          <p class="cap">完全削除は処分済みからのみ。</p>
+        </div>
+
+        <!-- 設定 -->
+        <div class="phone-wrap">
+          <h3>⑦ 設定（部屋・種類・家族・通知）</h3>
+          <div class="phone">
+            <div class="bar"><b>設定</b></div>
+            <div class="body">
+              <div class="row">
+                <div>
+                  <div class="t">通知メールを受け取る</div>
+                  <div class="s">期限の 30 日前と 7 日前の朝 8 時</div>
+                </div>
+                <span class="sw"></span>
+              </div>
+              <div class="grp">部屋</div>
+              <div class="row"><span>キッチン</span><span class="s">↑ ↓ 名前変更 削除</span></div>
+              <div class="row"><span>リビング</span><span class="s">↑ ↓ 名前変更 削除</span></div>
+              <div class="errmsg">この部屋に 1 件の家電があります。削除できません。</div>
+              <div class="link" style="text-align: left">＋部屋を追加</div>
+              <div class="grp">種類</div>
+              <div class="row"><span>家電</span><span class="s">↑ ↓ 名前変更 削除</span></div>
+              <div class="row"><span>住宅設備</span><span class="s">↑ ↓ 名前変更 削除</span></div>
+              <div class="row"><span>家具</span><span class="s">↑ ↓ 名前変更 削除</span></div>
+              <div class="grp">家族</div>
+              <div class="row">
+                <span>ひろ（ログイン可）</span><span class="s">↑ ↓ 名前変更</span>
+              </div>
+              <div class="row">
+                <span>ゆき（ログイン可）</span><span class="s">↑ ↓ 名前変更</span>
+              </div>
+              <div class="link" style="text-align: left">＋家族を追加</div>
+            </div>
+            <div class="tabs"><span>一覧</span><span>登録</span><span class="on">設定</span></div>
+          </div>
+          <p class="cap">
+            通知スイッチは自分の分だけ。並べ替えはドラッグではなく上下ボタン。ログインできる家族は削除不可。
+          </p>
+        </div>
+
+        <!-- メール -->
+        <div class="phone-wrap">
+          <h3>⑧ 通知メール</h3>
+          <div class="phone">
+            <div class="bar"><b>メール</b></div>
+            <div class="body mail">
+              <div class="hdr">
+                差出人: ieroku &lt;notify@（独自ドメイン）&gt;<br />件名: 保証期限のお知らせ（2 件）
+              </div>
+              <div>保証期限が近づいています。</div>
+              <div>
+                ・エアコン（メーカー保証）<br />　期限 2026/12/28（あと 30 日）<br />　https://app.（ドメイン）/items/…
+              </div>
+              <div>
+                ・食洗機（延長保証）<br />　期限 2026/12/05（あと 7 日）<br />　https://app.（ドメイン）/items/…
+              </div>
+              <div class="hist">受信をやめるにはアプリの設定から変更してください。</div>
+            </div>
+          </div>
+          <p class="cap">金額・購入店・部屋・メーカー/型番・添付は書かない（ADR 0015 提案）。</p>
+        </div>
+      </div>
+
+      <h2 id="flow">データフロー</h2>
+      <div class="flow">
+        <svg
+          viewBox="0 0 1100 430"
+          role="img"
+          aria-label="入力からサーバー関数、データアクセス層、D1 と R2 へのデータの流れ"
+        >
+          <defs>
+            <marker
+              id="arr"
+              viewBox="0 0 10 10"
+              refX="9"
+              refY="5"
+              markerWidth="7"
+              markerHeight="7"
+              orient="auto-start-reverse"
+            >
+              <path d="M0 0L10 5L0 10z" />
+            </marker>
+          </defs>
+
+          <rect class="n" x="10" y="40" width="170" height="92" rx="10" />
+          <text x="24" y="66">スマホのブラウザ</text>
+          <text class="sub" x="24" y="86">フォーム（TanStack Form</text>
+          <text class="sub" x="24" y="102">＋ 共有 Zod スキーマ）</text>
+          <text class="sub" x="24" y="118">画像は JPEG に再エンコード</text>
+
+          <rect class="n" x="225" y="40" width="160" height="92" rx="10" />
+          <text x="239" y="66">Cloudflare Access</text>
+          <text class="sub" x="239" y="86">パスキー / OTP</text>
+          <text class="sub" x="239" y="102">2 人のメールのみ許可</text>
+          <text class="sub" x="239" y="118">JWT を付与</text>
+
+          <rect class="g" x="420" y="16" width="440" height="300" rx="14" />
+          <text class="sub" x="434" y="36">Worker（TanStack Start）</text>
+
+          <rect class="n" x="440" y="48" width="190" height="84" rx="10" />
+          <text x="454" y="74">認証ミドルウェア</text>
+          <text class="sub" x="454" y="94">JWT 検証（公開鍵・AUD）</text>
+          <text class="sub" x="454" y="110">email → users → 世帯 ID</text>
+          <text class="sub" x="454" y="126">→ HouseholdScope</text>
+
+          <rect class="n" x="660" y="48" width="180" height="84" rx="10" />
+          <text x="674" y="74">サーバー関数</text>
+          <text class="sub" x="674" y="94">Zod で再検証</text>
+          <text class="sub" x="674" y="110">createItem / listItems …</text>
+          <text class="sub" x="674" y="126">ログは ID と件数のみ</text>
+
+          <rect class="n" x="660" y="160" width="180" height="70" rx="10" />
+          <text x="674" y="186">/api/files/$id</text>
+          <text class="sub" x="674" y="206">HMAC・60 秒・世帯一致</text>
+          <text class="sub" x="674" y="222">を検証して返す</text>
+
+          <rect class="n" x="440" y="160" width="190" height="70" rx="10" />
+          <text x="454" y="186">Cron（毎朝 8:00 JST）</text>
+          <text class="sub" x="454" y="206">期限 30/7 日前を抽出</text>
+          <text class="sub" x="454" y="222">世帯ごとに処理</text>
+
+          <rect class="n" x="440" y="248" width="400" height="56" rx="10" />
+          <text x="454" y="272">src/server/data/（データアクセス層・drizzle はここだけ）</text>
+          <text class="sub" x="454" y="292">
+            全関数の第 1 引数が HouseholdScope。全クエリの WHERE に household_id
+          </text>
+
+          <rect class="n" x="900" y="230" width="180" height="56" rx="10" />
+          <text x="914" y="254">D1</text>
+          <text class="sub" x="914" y="274">items / warranties / …</text>
+
+          <rect class="n" x="900" y="310" width="180" height="56" rx="10" />
+          <text x="914" y="334">R2（非公開）</text>
+          <text class="sub" x="914" y="354">{世帯ID}/{UUID}</text>
+
+          <rect class="n" x="900" y="60" width="180" height="70" rx="10" />
+          <text x="914" y="86">send_email</text>
+          <text class="sub" x="914" y="106">宛先は登録済みの</text>
+          <text class="sub" x="914" y="122">2 アドレスのみ</text>
+
+          <path d="M180 86 H222" />
+          <path d="M385 86 H437" />
+          <path d="M630 90 H657" />
+          <path d="M750 132 V245" />
+          <path d="M750 230 V245" class="sec" />
+          <path d="M535 230 V245" />
+          <path d="M840 268 H897" />
+          <path d="M840 290 C 870 300, 870 330, 897 336" />
+          <path d="M630 196 C 760 150, 820 100, 897 95" class="sec" />
+          <text class="sub" x="40" y="400">
+            実線: 通常のリクエスト。緑: 通知（Cron → send_email）とファイル配信の経路。どの経路も
+            data 層を通り、世帯 ID なしで D1・R2 を触る道はない。
+          </text>
+        </svg>
+      </div>
+
+      <h2 id="code">レビューしてほしいコード断片</h2>
+
+      <h3>世帯スコープとデータアクセス関数のシグネチャ</h3>
+      <pre><code>// src/server/data/scope.ts
+declare const brand: unique symbol;
+/** 認証ミドルウェアだけが作れる。入力から世帯 ID を受け取らないための型 */
+export type HouseholdScope = { readonly householdId: string; readonly userId: string; readonly [brand]: true };
+
+// src/server/data/items.ts
+export function listItems(s: HouseholdScope, q: { keyword?: string; status: "active" | "disposed" }): Promise&lt;ItemSummary[]&gt;;
+export function getItem(s: HouseholdScope, itemId: string): Promise&lt;ItemDetail | null&gt;;       // 他世帯なら null
+export function createItem(s: HouseholdScope, input: ItemInput): Promise&lt;{ id: string }&gt;;    // 部屋・種類が同じ世帯かを確認
+export function updateItem(s: HouseholdScope, itemId: string, input: ItemInput): Promise&lt;boolean&gt;;
+export function disposeItem(s: HouseholdScope, itemId: string, disposedOn: string): Promise&lt;boolean&gt;;
+export function restoreItem(s: HouseholdScope, itemId: string): Promise&lt;boolean&gt;;
+export function deleteDisposedItem(s: HouseholdScope, itemId: string): Promise&lt;{ r2Keys: string[] } | null&gt;; // active なら null
+
+// src/server/data/rooms.ts（categories.ts も同じ形）
+export function deleteRoom(s: HouseholdScope, roomId: string): Promise&lt;{ ok: true } | { ok: false; itemCount: number }&gt;;
+
+// 通知だけは世帯をまたいで抽出するため、世帯ごとにスコープを作り直して処理する
+export function listHouseholdIdsForCron(): Promise&lt;string[]&gt;;   // ID だけを返す。中身は scope 経由で読む</code></pre>
+
+      <h3>保証期限の計算（純関数）</h3>
+      <pre><code>// src/lib/date.ts（日付はここだけ。Date は使わない。ブラウザ組み込みの Temporal には頼らない）
+import { Temporal } from "temporal-polyfill";
+export const todayJst = (): string =&gt; Temporal.Now.plainDateISO("Asia/Tokyo").toString();
+
+// src/lib/warranty.ts
+/** 開始日 + months か月 − 1 日。add は月末を自動で丸める。例: 2024-02-29 + 12 → 2025-02-28 → 2025-02-27 */
+export function calcExpiresOn(startsOn: string, months: number): string {
+  return Temporal.PlainDate.from(startsOn).add({ months }).subtract({ days: 1 }).toString();
+}
+// テスト: 2026-04-01+12→2027-03-31 / 2026-01-31+1→2026-02-27 / 2024-02-29+12→2025-02-27 / 2026-03-01+1→2026-03-31</code></pre>
+
+      <h3>共有 Zod スキーマ（AI 解析の出力と同じ形）</h3>
+      <pre><code>// src/lib/schemas/item.ts
+const ymd = z.iso.date();
+export const warrantyInput = z.object({
+  kind: z.enum(["maker", "extended", "other"]),
+  provider: z.string().trim().max(100).optional(),
+  startsOn: ymd,
+  months: z.int().min(1).max(240).optional(),
+  expiresOn: ymd,
+  expiresOnManual: z.boolean(),
+}).refine((w) =&gt; w.expiresOn &gt;= w.startsOn, { path: ["expiresOn"], message: "期限日は開始日以降にしてください" });
+
+export const itemInput = z.object({
+  name: z.string().trim().min(1, "品名を入力してください").max(100),
+  categoryId: z.uuid(),
+  roomId: z.uuid().nullable(),
+  maker: z.string().trim().max(100).optional(),
+  modelNumber: z.string().trim().max(100).optional(),
+  purchasedOn: ymd,                       // もらいものは受け取った日。今日（JST）以前かは共通の関数で確認
+  note: z.string().max(1000).optional(),
+  warranties: z.array(warrantyInput).max(10),   // 空配列 = 保証なし
+  acquisition: z.discriminatedUnion("type", [
+    z.object({
+      type: z.literal("purchased"),
+      purchasedByMemberId: z.uuid().nullable(),   // 同じ世帯の家族かはデータ層で確認
+      store: z.string().trim().max(100).optional(),
+      priceYen: z.int().min(0).max(100_000_000).optional(),
+    }),
+    z.object({
+      type: z.literal("gift"),
+      giftFrom: z.string().trim().max(30).optional(),  // 呼び名。ログ・メールに出さない
+    }),
+  ]),
+});
+export type ItemDraft = Omit&lt;z.infer&lt;typeof itemInput&gt;, "categoryId" | "roomId" | "note"&gt;; // 0012 の AI 出力の形</code></pre>
+
+      <h3>通知の対象判定</h3>
+      <pre><code>// src/server/notify/due.ts（純関数。D1 から読んだ行を受け取る）
+export function dueStages(w: { expiresOn: string; createdOn: string }, today: string): ("d30" | "d7")[] {
+  // 段階の日 = expiresOn − 30 / − 7。today − 2 ≦ 段階の日 ≦ today（再送 3 日）かつ 段階の日 ≧ createdOn
+}
+// 送信は (warranty, user, stage, expiresOn) で一意。sent があれば送らない。failed は attempts &lt; 3 まで</code></pre>
+
+      <h2 id="review">特に見てほしい点</h2>
+      <div class="q">
+        1. <b>期限計算の規則</b>（月単位で持ち、+N
+        か月の前日。2/29・月末の丸め）が保証書の感覚と合っているか。
+      </div>
+      <div class="q">2. <b>通知メールの本文</b>に品名を書いてよいか（ADR 0015 提案）。</div>
+      <div class="q">
+        3. <b>ファイル配信</b>を R2 の S3 署名付き URL ではなく Worker 経由の HMAC URL
+        にする判断（ADR 0016 提案）。
+      </div>
+      <div class="q">
+        4. <b>PR の分割</b>（土台 → 部屋・種類 → 家電と保証 → 一覧・処分 → 添付 → 通知）の粒度。
+      </div>
+      <div class="q">
+        5.
+        <code>HouseholdScope</code> をブランド型にして、サーバー関数の入力から作れないようにする形。
+      </div>
+    </main>
+  </body>
+</html>
