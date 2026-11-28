@@ -36,4 +36,5 @@
 - ブランチは `feat/NNN-機能名` など短命のもの。main への直接 push はしない
 - コミットは Conventional Commits（種別は英語、本文は日本語）。例: `feat(warranty): 保証期限の一覧を追加 (#001)`
 - マージはマージコミット。PR 内のコミットが main に残るため、途中経過のコミットは push 前に `git commit --fixup` と `git rebase --autosquash` でまとめる
+- `.github/workflows/` は Claude のトークン（Workflows 権限なし）では push できない。変更が必要なら差分を用意し、push はひでが行う
 - PR には仕様へのリンク・検証の証拠・リスク・戻し方を書き、要注意パス（`.claude/` `.github/` `docs/adr/` `CLAUDE.md` `REVIEW.md` `wrangler.jsonc` `terraform/`）の変更を明示する

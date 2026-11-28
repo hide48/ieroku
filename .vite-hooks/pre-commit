@@ -1,1 +1,4 @@
+# 秘密情報のコミットを止める（ADR 0004）。gitleaks は mise.toml で固定
+command -v gitleaks >/dev/null 2>&1 || { echo "gitleaks が見つかりません。mise install を実行してください"; exit 1; }
+gitleaks git --staged --redact --no-banner
 vp staged
